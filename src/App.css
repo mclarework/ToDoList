@@ -1,0 +1,81 @@
+body {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  background-color: aquamarine;
+  flex-direction: column;
+}
+
+.main {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  align-items: center;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  margin-top:25px;
+  height: 5%;
+  width: 95%;
+  padding:10px;
+  background-color: burlywood;
+  border-style: solid;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer {
+  display: flex;
+  height: 5%;
+  width: 95%;
+  padding:10px;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.inputBox {
+  height: 70%;
+  width: 25%;
+  font-size: large;
+}
+
+.dataBar {
+  display: flex;
+  height: fit-content;
+  width: 95%;
+  padding:10px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.taskArea {
+  width: 80%;
+}
+
+.doAndDelete {
+  display: flex;
+  width: 80%;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.textBox {
+  display: flex;
+  margin-top:50px;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.submit {
+  height: 30px;
+  width: 100px;
+}
+
+.delete {
+  height: 30px;
+  width: 100px;
+}

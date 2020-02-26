@@ -1,21 +1,33 @@
 import React, {Component} from 'react';
-import './App.css';
+import './css/App.css';
 
 class App extends Component {
   state = {
-    todo: [{task: "Fix this project"}
+    todo: [{task: "Fix this project",isDone:false}
     ],
     input:"",
   }
 
   TaskAdder = () => {
-    if (this.state.input === "") {
-      return
-    }else{
+    if (this.state.input !== "") {
       let newTask = {task: this.state.input}
       let temp = this.state.todo
       temp.push(newTask)
       this.setState({todo:temp, input: ""})
+    }
+  }
+
+  return = (event) => {
+    if (event.keyCode === 13 && this.state.input !== "") {
+      let newTask = {task: this.state.input}
+      let temp = this.state.todo
+      temp.push(newTask)
+      this.setState({todo:temp, input: ""})
+    }
+    if (event.keyCode === 46) {
+      let temp = this.state.todo
+      temp.splice(0,1)
+      this.setState({todo:temp})
     }
   }
 
@@ -29,10 +41,14 @@ class App extends Component {
     this.setState({todo:temp})
   }
 
+  toggle = () => {
+    this.setState({isDone: !this.state.isDone})
+  }
+
   render() {
     return (
-      <div className="App" >
-        <Tasks task = {this.state.todo} click = {this.TaskAdder} remove = {this.remove} input = {this.change} inputReset = {this.state.input}/>
+      <div className="App" onKeyDown = {this.return}>
+        <Tasks task = {this.state.todo} click = {this.TaskAdder} remove = {this.remove} input = {this.change} inputReset = {this.state.input} isDone = {this.state.isDone} toggle = {this.toggle}/>
       </div>
     );
   }
@@ -42,7 +58,7 @@ const Tasks = (props) => {
   return (
     <div className = "main" >
       <HeaderBar/>
-      <FooterBar click = {props.click} input = {props.input} inputReset = {props.inputReset} />
+      <FooterBar click = {props.click} input = {props.input} inputReset = {props.inputReset} isDone = {props.isDone} toggle = {props.toggle}/>
       <TaskList task = {props.task} remove = {props.remove}/>
     </div>
   )
@@ -62,7 +78,7 @@ const FooterBar = (props) => {
       <h1>Add Task</h1>
       <h2>To Do</h2>
       <input className = "inputBox" type="text" onChange = {props.input} value = {props.inputReset} placeholder = "New Task..."></input>
-      <Button click = {props.click}/>
+      <Button click = {props.click} isDone = {props.isDone}/>
     </div>
   )
 }
@@ -73,7 +89,7 @@ const TaskList = (props) => {
       {props.task.map((info,index)=>{
         return (
           <div key = {index} className = "taskArea">
-            <Task task = {info.task} index = {index} remove = {props.remove}/>
+            <Task task = {info.task} index = {index} remove = {props.remove} isDone = {props.isDone}/>
          </div>
         )
       })}
@@ -86,6 +102,7 @@ const Task = (props) => {
     <div className = "doAndDelete">
       <h2>{props.task}</h2>
       <Delete index = {props.index} remove = {props.remove}/>
+      {props.isDone ? <NotDone/> :<Done/>}
     </div>
   )
 }
@@ -96,6 +113,22 @@ const Button = (props) => {
 
 const Delete = (props) => {
   return <button id = {props.index} className = "delete" onClick = {props.remove}>DELETE</button>
+}
+
+const NotDone = () => {
+  return (
+    <div className = "incomplete">
+    <p>Incomplete</p>
+    </div>
+  )
+}
+
+const Done = () => {
+  return (
+    <div className = "complete">
+    <p>Complete</p>
+    </div>
+  )
 }
 
 export default App;

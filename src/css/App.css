@@ -21,6 +21,7 @@ body {
   height: 5%;
   width: 95%;
   padding:10px;
+  border-radius: 25px;
   background-color: burlywood;
   border-style: solid;
   justify-content: center;
@@ -39,6 +40,9 @@ body {
 .inputBox {
   height: 70%;
   width: 25%;
+  box-shadow: inset 1px 1px 5px black;
+  border-radius: 25px;
+  text-align: center;
   font-size: large;
 }
 
@@ -73,9 +77,45 @@ body {
 .submit {
   height: 30px;
   width: 100px;
+  box-shadow: 1px 1px 5px black;
+  border-radius: 25px;
+  transition: 0.5s;
+}
+
+.sumbit:active {
+  box-shadow: inset 1px 1px 10px black;
 }
 
 .delete {
   height: 30px;
   width: 100px;
+  box-shadow: 1px 1px 5px black;
+  border-radius: 25px;
+  transition: 0.5s
+}
+
+.delete:active {
+  box-shadow: inset 1px 1px 10px black;
+}
+
+.incomplete {
+  display: flex;
+  height: 30px;
+  width: 100px;
+  box-shadow: 1px 1px 5px black;
+  border-radius: 25px;
+  background-color: red;
+  justify-content: center;
+  align-items: center;
+}
+
+.complete {
+  display: flex;
+  height: 30px;
+  width: 100px;
+  box-shadow: 1px 1px 5px black;
+  border-radius: 25px;
+  background-color: green;
+  justify-content: center;
+  align-items: center;
 }

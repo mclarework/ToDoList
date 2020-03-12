@@ -1,173 +1,65 @@
 import React, { Component } from "react";
+import Tasks from "./components/Tasks";
 import "./css/App.css";
 
 class App extends Component {
   state = {
-    todo: [{ task: "Fix this project", isDone: false }],
-    input: "",
-    list: null
+    todo: [],
+    input: ""
   };
 
   async componentDidMount() {
     const data = await fetch(`http://localhost:3010/data`);
     const response = await data.json();
-    this.setState({ tod: response });
+    this.setState({ todo: response.data });
   }
 
-  TaskAdder = () => {
+  async componentDidUpdate() {
+    const data = await fetch(`http://localhost:3010/data`);
+    const response = await data.json();
+    this.setState({ todo: response.data });
+  }
+
+  TaskAdder = async () => {
     if (this.state.input !== "") {
-      let newTask = { task: this.state.input };
-      let temp = this.state.todo;
-      temp.push(newTask);
-      this.setState({ todo: temp, input: "" });
+      await fetch(`http://localhost:3010/add?address=${this.state.input}`);
+      this.setState({ input: "" });
     }
   };
 
-  return = event => {
+  Return = async event => {
     if (event.keyCode === 13 && this.state.input !== "") {
-      let newTask = { task: this.state.input };
-      let temp = this.state.todo;
-      temp.push(newTask);
-      this.setState({ todo: temp, input: "" });
-    }
-    if (event.keyCode === 46) {
-      let temp = this.state.todo;
-      temp.splice(0, 1);
-      this.setState({ todo: temp });
+      await fetch(`http://localhost:3010/add?address=${this.state.input}`);
+      this.setState({ input: "" });
     }
   };
 
-  change = event => {
+  Change = event => {
     this.setState({ input: event.target.value });
   };
 
-  remove = event => {
+  Remove = async event => {
     let temp = this.state.todo;
-    temp.splice(event.target.id, 1);
-    this.setState({ todo: temp });
-  };
-
-  toggle = () => {
-    this.setState({ isDone: !this.state.isDone });
+    let locate = temp[event.target.id]._id;
+    let index = temp.findIndex(value => value._id === locate);
+    let object = temp[index]._id;
+    let data = JSON.stringify(object);
+    await fetch(`http://localhost:3010/remove?address=${data}`);
   };
 
   render() {
     return (
-      <div className="App" onKeyDown={this.return}>
+      <div className="App" onKeyDown={this.Return}>
         <Tasks
           task={this.state.todo}
           click={this.TaskAdder}
-          remove={this.remove}
-          input={this.change}
+          remove={this.Remove}
+          input={this.Change}
           inputReset={this.state.input}
-          isDone={this.state.isDone}
-          toggle={this.toggle}
         />
       </div>
     );
   }
 }
-
-const Tasks = props => {
-  return (
-    <div className="main">
-      <HeaderBar />
-      <FooterBar
-        click={props.click}
-        input={props.input}
-        inputReset={props.inputReset}
-        isDone={props.isDone}
-        toggle={props.toggle}
-      />
-      <TaskList task={props.task} remove={props.remove} />
-    </div>
-  );
-};
-
-const HeaderBar = () => {
-  return (
-    <div className="header">
-      <h1>To Do List...</h1>
-    </div>
-  );
-};
-
-const FooterBar = props => {
-  return (
-    <div className="footer">
-      <h1>Add Task</h1>
-      <h2>To Do</h2>
-      <input
-        className="inputBox"
-        type="text"
-        onChange={props.input}
-        value={props.inputReset}
-        placeholder="New Task..."
-      ></input>
-      <Button click={props.click} isDone={props.isDone} />
-    </div>
-  );
-};
-
-const TaskList = props => {
-  return (
-    <div className="dataBar">
-      {props.task.map((info, index) => {
-        return (
-          <div key={index} className="taskArea">
-            <Task
-              task={info.task}
-              index={index}
-              remove={props.remove}
-              isDone={props.isDone}
-            />
-          </div>
-        );
-      })}
-    </div>
-  );
-};
-
-const Task = props => {
-  return (
-    <div className="doAndDelete">
-      <h2>{props.task}</h2>
-      <Delete index={props.index} remove={props.remove} />
-      {props.isDone ? <NotDone /> : <Done />}
-    </div>
-  );
-};
-
-const Button = props => {
-  return (
-    <button className="submit" onClick={props.click}>
-      SUBMIT
-    </button>
-  );
-};
-
-const Delete = props => {
-  return (
-    <button id={props.index} className="delete" onClick={props.remove}>
-      DELETE
-    </button>
-  );
-};
-
-const NotDone = () => {
-  return (
-    <div className="incomplete">
-      <p>Incomplete</p>
-    </div>
-  );
-};
-
-const Done = () => {
-  return (
-    <div className="complete">
-      <p>Complete</p>
-    </div>
-  );
-};
 
 export default App;

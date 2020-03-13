@@ -12,6 +12,7 @@ const Tasks = props => {
         click={props.click}
         input={props.input}
         inputReset={props.inputReset}
+        return={props.return}
       />
       <TaskList task={props.task} remove={props.remove} />
     </div>

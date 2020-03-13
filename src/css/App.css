@@ -7,6 +7,13 @@ body {
   flex-direction: column;
 }
 
+.App{
+  display: flex;
+  height: 100%;
+  width: 100%;
+  margin:0
+}
+
 .main {
   display: flex;
   height: 100vh;
@@ -118,4 +125,68 @@ body {
   background-color: green;
   justify-content: center;
   align-items: center;
+}
+
+@media only screen and (max-width: 600px) {
+  .header {
+    display: flex;
+    margin-top:25px;
+    height: 5%;
+    width: 80%;
+    padding:10px;
+    margin-bottom:25px;
+    border-radius: 25px;
+    background-color: burlywood;
+    border-style: solid;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .footer {
+    display: flex;
+    height: 5%;
+    width: 95%;
+    padding:10px;
+    font-size: xx-small;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .inputBox {
+    height: 20px;
+    width: 75px;
+    box-shadow: inset 1px 1px 5px black;
+    border-radius: 25px;
+    text-align: center;
+    font-size: xx-small;
+  }
+
+  .submit {
+    height: 20px;
+    width: 75px;
+    font-size: xx-small;
+    box-shadow: 1px 1px 5px black;
+    border-radius: 25px;
+    transition: 0.5s;
+  }
+
+  .doAndDelete {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    font-size: xx-small;
+  }
+
+  .delete {
+    height: 20px;
+    width: 75px;
+    box-shadow: 1px 1px 5px black;
+    border-radius: 25px;
+    transition: 0.5s
+  }
+  
+  .delete:active {
+    box-shadow: inset 1px 1px 10px black;
+  }
 }

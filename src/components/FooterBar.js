@@ -13,6 +13,7 @@ const FooterBar = props => {
         onChange={props.input}
         value={props.inputReset}
         placeholder="New Task..."
+        onKeyDown={props.return}
       ></input>
       <Button click={props.click} />
     </div>

@@ -14,37 +14,44 @@ class App extends Component {
     this.setState({ todo: response.data });
   }
 
-  async componentDidUpdate() {
+  update = async () => {
     const data = await fetch(`http://localhost:3010/data`);
     const response = await data.json();
-    this.setState({ todo: response.data });
-  }
+    this.setState({
+      todo: response.data
+    });
+  };
 
-  TaskAdder = async () => {
+  taskAdder = async () => {
     if (this.state.input !== "") {
-      await fetch(`http://localhost:3010/add?address=${this.state.input}`);
-      this.setState({ input: "" });
+      fetch(`http://localhost:3010/add?address=${this.state.input}`);
+      this.setState({input:""})
+      setTimeout(() => {
+        this.update()}, 800
+      );
     }
   };
 
-  Return = async event => {
+  return = async event => {
     if (event.keyCode === 13 && this.state.input !== "") {
-      await fetch(`http://localhost:3010/add?address=${this.state.input}`);
-      this.setState({ input: "" });
+      this.taskAdder();
     }
   };
 
-  Change = event => {
-    this.setState({ input: event.target.value });
-  };
-
-  Remove = async event => {
+  remove = event => {
     let temp = this.state.todo;
     let locate = temp[event.target.id]._id;
     let index = temp.findIndex(value => value._id === locate);
     let object = temp[index]._id;
     let data = JSON.stringify(object);
-    await fetch(`http://localhost:3010/remove?address=${data}`);
+    fetch(`http://localhost:3010/remove?address=${data}`);
+    setTimeout(() => {
+      this.update()}, 800
+    );
+  };
+
+  change = event => {
+    this.setState({ input: event.target.value });
   };
 
   render() {
@@ -52,9 +59,11 @@ class App extends Component {
       <div className="App" onKeyDown={this.Return}>
         <Tasks
           task={this.state.todo}
-          click={this.TaskAdder}
-          remove={this.Remove}
-          input={this.Change}
+          return={this.return}
+          click={this.taskAdder}
+          remove={this.remove}
+          input={this.change}
+          enter={this.remove}
           inputReset={this.state.input}
         />
       </div>

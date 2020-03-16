@@ -11,24 +11,16 @@ class App extends Component {
   async componentDidMount() {
     const data = await fetch(`http://localhost:3010/data`);
     const response = await data.json();
-    this.setState({ todo: response.data });
+    this.setState({ todo: response.data});
   }
 
-  update = async () => {
-    const data = await fetch(`http://localhost:3010/data`);
-    const response = await data.json();
-    this.setState({
-      todo: response.data
-    });
-  };
-
-  taskAdder = async () => {
+  taskAdder = () => {
     if (this.state.input !== "") {
-      fetch(`http://localhost:3010/add?address=${this.state.input}`);
+      let temp = this.state.todo
+      let newItem = this.state.input
+      temp.push({task:newItem})
+      fetch(`http://localhost:3010/add?address=${newItem}`);
       this.setState({input:""})
-      setTimeout(() => {
-        this.update()}, 800
-      );
     }
   };
 
@@ -40,14 +32,10 @@ class App extends Component {
 
   remove = event => {
     let temp = this.state.todo;
-    let locate = temp[event.target.id]._id;
-    let index = temp.findIndex(value => value._id === locate);
-    let object = temp[index]._id;
-    let data = JSON.stringify(object);
-    fetch(`http://localhost:3010/remove?address=${data}`);
-    setTimeout(() => {
-      this.update()}, 800
-    );
+    let key = temp[event.target.id].task
+    temp.splice(event.target.id,1)
+    fetch(`http://localhost:3010/remove?address=${key}`);
+    this.setState({todo:temp})
   };
 
   change = event => {
